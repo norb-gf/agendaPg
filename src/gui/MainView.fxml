@@ -6,8 +6,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
       <VBox prefHeight="331.0" prefWidth="511.0">
          <children>
@@ -15,21 +14,21 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Cadastros">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Fornecedores" />
-                        <MenuItem mnemonicParsing="false" text="Contas Bancarias" />
+                        <MenuItem fx:id="menuItemFornecedores" mnemonicParsing="false" onAction="#onMenuItemFornecedoresAction" text="Fornecedores" />
+                        <MenuItem fx:id="menuItemContasBancarias" mnemonicParsing="false" onAction="#onMenuItemContasBancariasAction" text="Contas Bancarias" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Agenda">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Mes Anterior" />
-                        <MenuItem mnemonicParsing="false" text="Mes Atual" />
-                        <MenuItem mnemonicParsing="false" text="Proximo Mẽs" />
-                        <MenuItem mnemonicParsing="false" text="Agenda Padrao" />
+                      <MenuItem fx:id="menuItemMesAnterior" mnemonicParsing="false" onAction="#onMenuItemMesAnteriorAction" text="Mes Anterior" />
+                        <MenuItem fx:id="menuItemMesAtual" mnemonicParsing="false" onAction="#onMenuItemMesAtualAction" text="Mes Atual" />
+                        <MenuItem fx:id="menuItemProxMes" mnemonicParsing="false" onAction="#onMenuItemProxMesAction" text="Proximo Mẽs" />
+                        <MenuItem fx:id="menuItemAgendaPadrao" mnemonicParsing="false" onAction="#onMenuItemAgendaPadraoAction" text="Agenda Padrao" />
                     </items>
                   </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="Sobre">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#onMenuItemAboutAction" text="Sobre" />
                   </items>
                 </Menu>
               </menus>
