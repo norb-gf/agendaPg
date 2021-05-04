@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
 public class MainViewController implements Initializable {
 
 	@FXML
+	private MenuItem menuItemAtividades;
+	
+	@FXML
 	private MenuItem menuItemFornecedores;
 
 	@FXML
@@ -43,6 +46,10 @@ public class MainViewController implements Initializable {
 		System.out.println("onMenuItemFornecedoresAction");
 	}
 
+	public void onMenuItemAtividadesListAction() {
+		loadView("/gui/AtividadesList.fxml");
+	}
+	
 	public void onMenuItemContasBancariasAction() {
 		System.out.println("onMenuItemContasBancariasAction");
 	}
