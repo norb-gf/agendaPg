@@ -11,11 +11,11 @@ public class Atividades implements Serializable {
 	private String diaPg;
 	private String titular;
 	private String descr;
-	private Float valor;
+	private Double valor;
 	private Boolean boleto;
 	private Boolean comprovPg;
 	
-	public Atividades(Integer id, String st, String diaPg, String titular, String descr, Float valor, Boolean boleto,
+	public Atividades(Integer id, String st, String diaPg, String titular, String descr, Double valor, Boolean boleto,
 			Boolean comprovPg) {
 		super();
 		this.id = id;
@@ -28,7 +28,7 @@ public class Atividades implements Serializable {
 		this.comprovPg = comprovPg;
 	}
 
-	public Atividades(String st, String diaPg, String titular, String descr, Float valor, Boolean boleto,
+	public Atividades(String st, String diaPg, String titular, String descr, Double valor, Boolean boleto,
 			Boolean comprovPg) {
 		super();
 		this.st = st;
@@ -80,11 +80,11 @@ public class Atividades implements Serializable {
 		this.descr = descr;
 	}
 
-	public Float getValor() {
+	public Double getValor() {
 		return valor;
 	}
 
-	public void setValor(Float valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 

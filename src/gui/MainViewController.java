@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import models.services.AtividadesService;
 
 public class MainViewController implements Initializable {
 
@@ -47,7 +48,8 @@ public class MainViewController implements Initializable {
 	}
 
 	public void onMenuItemAtividadesListAction() {
-		loadView("/gui/AtividadesList.fxml");
+//		loadView("/gui/AtividadesList.fxml");
+		loadView2("/gui/AtividadesList.fxml");
 	}
 	
 	public void onMenuItemContasBancariasAction() {
@@ -96,4 +98,31 @@ public class MainViewController implements Initializable {
 			Alerts.showAlert("IOException", "Erro no loading View", e.getMessage(), AlertType.ERROR);
 		}
 	}
+
+// temporario ============================**
+	
+	private synchronized void loadView2(String absoluteName) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			VBox newVBox = loader.load();
+
+			Scene mainScene = Main.getMainScene();
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+
+			Node mainMenu = mainVBox.getChildren().get(0);
+			mainVBox.getChildren().clear();
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			AtividadesListController controller = loader.getController();
+			controller.setAtividadesService(new AtividadesService());
+			controller.updateTableView();
+
+		} catch (IOException e) {
+			Alerts.showAlert("IOException", "Erro no loading View", e.getMessage(), AlertType.ERROR);
+		}
+	}
+// temporario ****************************==
+	
+
 }

@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,9 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.entities.Atividades;
+import models.services.AtividadesService;
 
 public class AtividadesListController implements Initializable {
 
+	private AtividadesService service;
+	
 	@FXML
 	private TableView<Atividades> tableViewAtividades;		
 	@FXML
@@ -33,12 +39,18 @@ public class AtividadesListController implements Initializable {
 	private TableColumn<Atividades, Boolean> tableColumnBoleto;
 	@FXML
 	private TableColumn<Atividades, Boolean> tableColumnComprovPg;
-	
 	@FXML
 	private Button btNovo;
+
+	private ObservableList<Atividades> obsList;
+	
 	@FXML
 	private void onBtNovoAction() {
 		System.out.println("onBtNovoAction");
+	}
+	
+	public void setAtividadesService(AtividadesService service) {
+		 this.service = service;
 	}
 	
 	@Override
@@ -62,4 +74,13 @@ public class AtividadesListController implements Initializable {
 	
 	}
 	
+	public void updateTableView() {
+		if (service == null) {
+			throw new IllegalStateException("Service Atividades estava vazio");
+		}
+		List <Atividades> list = service.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		tableViewAtividades.setItems(obsList);	
+	}
 }
+
