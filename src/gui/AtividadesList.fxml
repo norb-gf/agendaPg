@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="433.0" prefWidth="614.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+<VBox prefHeight="433.0" prefWidth="614.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AtividadesListController">
    <children>
       <Label text="Atividades do Mes">
          <font>
@@ -22,18 +21,19 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Novo" />
+          <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Novo" />
         </items>
       </ToolBar>
-      <TableView prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableViewAtividades" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="St" />
-          <TableColumn prefWidth="75.0" text="Dt" />
-            <TableColumn prefWidth="75.0" text="Titular" />
-            <TableColumn prefWidth="75.0" text="Atividade" />
-            <TableColumn prefWidth="75.0" text="Valor" />
-            <TableColumn prefWidth="75.0" text="Boleto" />
-            <TableColumn prefWidth="75.0" text="Cp Pg" />
+            <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="tableColumnSt" prefWidth="75.0" text="St" />
+          <TableColumn fx:id="tableColumnDiaPg" prefWidth="75.0" text="Dt" />
+            <TableColumn fx:id="tableColumnTitular" prefWidth="75.0" text="Titular" />
+            <TableColumn fx:id="tableColumnDescr" prefWidth="75.0" text="Atividade" />
+            <TableColumn fx:id="tableColumnValor" prefWidth="75.0" text="Valor" />
+            <TableColumn fx:id="tableColumnBoleto" prefWidth="75.0" text="Boleto" />
+            <TableColumn fx:id="tableColumnComprovPg" prefWidth="75.0" text="Cp Pg" />
         </columns>
       </TableView>
    </children>
