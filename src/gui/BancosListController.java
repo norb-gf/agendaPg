@@ -1,18 +1,27 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.entities.Bancos;
 import models.services.BancosService;
@@ -43,9 +52,10 @@ public class BancosListController implements Initializable {
 	private ObservableList<Bancos> obsList;
 	
 	@FXML
-	private void onBtNovoAction() {
-		System.out.println("onBtNovoAction");
-	}
+	private void onBtNovoAction(ActionEvent event) {
+		Stage parentStage = Utils.currentStage(event);
+		createDialogForm("/gui/BancosForm.fxml", parentStage);
+	} 
 	
 	public void setBancosService(BancosService service) {
 		 this.service = service;
@@ -78,6 +88,23 @@ public class BancosListController implements Initializable {
 		List <Bancos> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewBancos.setItems(obsList);	
+	}
+	
+	private void createDialogForm(String absoluteName, Stage parentStage) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Informe os dados do Banco");	
+			dialogStage.setScene(new Scene(pane));
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+		}
+		catch (IOException e) {
+			Alerts.showAlert("IO Exception","Erro createDialogForm", e.getMessage(), AlertType.ERROR);
+		}
 	}
 }
 
