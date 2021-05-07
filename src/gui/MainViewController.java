@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import models.services.AtividadesService;
+import models.services.BancosService;
 
 public class MainViewController implements Initializable {
 
@@ -57,7 +58,11 @@ public class MainViewController implements Initializable {
 	}
 	
 	public void onMenuItemContasBancariasAction() {
-		System.out.println("onMenuItemContasBancariasAction");
+		loadView("/gui/BancosList.fxml",
+				(BancosListController controller) -> {
+					controller.setBancosService(new BancosService());
+					controller.updateTableView();
+				});
 	}
 
 	public void onMenuItemMesAnteriorAction() {
