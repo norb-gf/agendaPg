@@ -9,19 +9,21 @@ import models.entities.Bancos;
 public class BancosService {
 
 	private BancosDao dao = DaoFactory.createBancosDao();
-	
-	public List<Bancos> findAll(){
+
+	public List<Bancos> findAll() {
 		return dao.findAll();
 	}
 
 	public void saveOrUpdate(Bancos obj) {
-		if(obj.getId() == null) {
+		if (obj.getId() == null) {
 			dao.insert(obj);
-		}
-		else {
+		} else {
 			dao.update(obj);
 		}
 	}
 
+	public void remove(Bancos obj) {
+		dao.deleteById(obj.getId());
+	}
 
 }
