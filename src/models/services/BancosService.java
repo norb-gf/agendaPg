@@ -13,4 +13,15 @@ public class BancosService {
 	public List<Bancos> findAll(){
 		return dao.findAll();
 	}
+
+	public void saveOrUpdate(Bancos obj) {
+		if(obj.getId() == null) {
+			dao.insert(obj);
+		}
+		else {
+			dao.update(obj);
+		}
+	}
+
+
 }

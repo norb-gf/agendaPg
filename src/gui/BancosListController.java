@@ -98,6 +98,7 @@ public class BancosListController implements Initializable {
 			
 			BancosFormController controller = loader.getController();
 			controller.setBancos(obj);
+			controller.setBancosService(new BancosService());
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
