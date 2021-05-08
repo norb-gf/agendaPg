@@ -9,9 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import models.entities.Bancos;
 
 public class BancosFormController implements Initializable {
+
+	private Bancos entity;
 
 	@FXML
 	private TextField txtId;
@@ -56,26 +58,24 @@ public class BancosFormController implements Initializable {
 		System.out.println("onBtnCancelarAction");
 	};
 
+	public void setBancos(Bancos entity) {
+		this.entity = entity;
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
 
-/*
-	private void keyPressed(KeyEvent evt) {
-		String caracteres = "0987654321";
-		System.out.println("evt0: " + evt.getText());
-
-		if (!caracteres.contains(evt.getText())) {
-			System.out.println("passei letra");
-			evt.consume();
-		}
-		System.out.println("passei depois");
-		System.out.println("evt: " + evt);
-		System.out.println("txtcod= " + txtCod.getText());
-		evt.consume();
-	}
-*/
+	/*
+	 * private void keyPressed(KeyEvent evt) { String caracteres = "0987654321";
+	 * System.out.println("evt0: " + evt.getText());
+	 * 
+	 * if (!caracteres.contains(evt.getText())) {
+	 * System.out.println("passei letra"); evt.consume(); }
+	 * System.out.println("passei depois"); System.out.println("evt: " + evt);
+	 * System.out.println("txtcod= " + txtCod.getText()); evt.consume(); }
+	 */
 
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
@@ -88,4 +88,18 @@ public class BancosFormController implements Initializable {
 		Constraints.setTextFieldMaxLength(txtTitular, 15);
 		Constraints.setTextFieldMaxLength(txtStatus, 15);
 	}
+
+	public void updateFormData() {
+		if (entity == null) {
+			throw new IllegalStateException("Erro. updateFormData entity null");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtId.setText(entity.getCod());
+		txtId.setText(entity.getTipo());
+		txtId.setText(entity.getNome());
+		txtId.setText(entity.getAg());
+		txtId.setText(entity.getTitular());
+		txtId.setText(entity.getStatus());
+	}
+
 }

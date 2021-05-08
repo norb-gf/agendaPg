@@ -54,7 +54,8 @@ public class BancosListController implements Initializable {
 	@FXML
 	private void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/BancosForm.fxml", parentStage);
+		Bancos obj = new Bancos();
+		createDialogForm(obj,"/gui/BancosForm.fxml", parentStage);
 	} 
 	
 	public void setBancosService(BancosService service) {
@@ -90,10 +91,15 @@ public class BancosListController implements Initializable {
 		tableViewBancos.setItems(obsList);	
 	}
 	
-	private void createDialogForm(String absoluteName, Stage parentStage) {
+	private void createDialogForm(Bancos obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			BancosFormController controller = loader.getController();
+			controller.setBancos(obj);
+			controller.updateFormData();
+			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Informe os dados do Banco");	
 			dialogStage.setScene(new Scene(pane));
