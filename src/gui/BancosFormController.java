@@ -1,16 +1,18 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,6 +24,9 @@ public class BancosFormController implements Initializable {
 
 	private Bancos entity;
 	private BancosService service;
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
+	
 
 	@FXML
 	private TextField txtId;
@@ -67,12 +72,20 @@ public class BancosFormController implements Initializable {
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
 		catch (DbException e) {
 			Alerts.showAlert("Erro na criação do objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	};
+
+	private void notifyDataChangeListeners() {
+		for (DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
+		
+	}
 
 	private Bancos getFormData() {
 		Bancos obj = new Bancos();
@@ -104,6 +117,12 @@ public class BancosFormController implements Initializable {
 		initializeNodes();
 	}
 
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
+	
+	
+	
 	/*
 	 * private void keyPressed(KeyEvent evt) { String caracteres = "0987654321";
 	 * System.out.println("evt0: " + evt.getText());

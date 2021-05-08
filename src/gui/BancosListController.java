@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,12 +27,12 @@ import javafx.stage.Stage;
 import models.entities.Bancos;
 import models.services.BancosService;
 
-public class BancosListController implements Initializable {
+public class BancosListController implements Initializable, DataChangeListener {
 
 	private BancosService service;
-	
+
 	@FXML
-	private TableView<Bancos> tableViewBancos;		
+	private TableView<Bancos> tableViewBancos;
 	@FXML
 	private TableColumn<Bancos, Integer> tableColumnId;
 	@FXML
@@ -50,18 +51,18 @@ public class BancosListController implements Initializable {
 	private Button btNovo;
 
 	private ObservableList<Bancos> obsList;
-	
+
 	@FXML
 	private void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Bancos obj = new Bancos();
-		createDialogForm(obj,"/gui/BancosForm.fxml", parentStage);
-	} 
-	
-	public void setBancosService(BancosService service) {
-		 this.service = service;
+		createDialogForm(obj, "/gui/BancosForm.fxml", parentStage);
 	}
-	
+
+	public void setBancosService(BancosService service) {
+		this.service = service;
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
@@ -79,39 +80,43 @@ public class BancosListController implements Initializable {
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewBancos.prefHeightProperty().bind(stage.heightProperty());
-	
+
 	}
-	
+
 	public void updateTableView() {
 		if (service == null) {
 			throw new IllegalStateException("Service Bancos estava vazio");
 		}
-		List <Bancos> list = service.findAll();
+		List<Bancos> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewBancos.setItems(obsList);	
+		tableViewBancos.setItems(obsList);
 	}
-	
+
 	private void createDialogForm(Bancos obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
-			
+
 			BancosFormController controller = loader.getController();
 			controller.setBancos(obj);
 			controller.setBancosService(new BancosService());
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
-			
+
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Informe os dados do Banco");	
+			dialogStage.setTitle("Informe os dados do Banco");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-		}
-		catch (IOException e) {
-			Alerts.showAlert("IO Exception","Erro createDialogForm", e.getMessage(), AlertType.ERROR);
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Erro createDialogForm", e.getMessage(), AlertType.ERROR);
 		}
 	}
-}
 
+	@Override
+	public void onDataChanged() {
+		updateTableView();
+	}
+}
