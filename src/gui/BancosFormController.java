@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import models.entities.Bancos;
+import models.exceptions.ValidationException;
 import models.services.BancosService;
 
 public class BancosFormController implements Initializable {
@@ -78,6 +81,9 @@ public class BancosFormController implements Initializable {
 		catch (DbException e) {
 			Alerts.showAlert("Erro na criação do objeto", null, e.getMessage(), AlertType.ERROR);
 		}
+		catch (ValidationException e) {
+			setErrorMessages(e.getErrors());		
+		}	
 	};
 
 	private void notifyDataChangeListeners() {
@@ -88,14 +94,26 @@ public class BancosFormController implements Initializable {
 	}
 
 	private Bancos getFormData() {
+
 		Bancos obj = new Bancos();
+		
+		ValidationException exception = new ValidationException("Erro de Validação except");
+		
 		obj.setId(Utils.tryParseToInt(txtId.getText())); 
 		obj.setTipo(txtTipo.getText());
 		obj.setCod(txtCod.getText());
+
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
+			exception.addError("errNome", "O campo é obrigatorio");
+		}
 		obj.setNome(txtNome.getText());
 		obj.setAg(txtAg.getText());
 		obj.setTitular(txtTitular.getText());
 		obj.setStatus(txtStatus.getText());
+		
+		if (exception.getErrors().size() > 0) {
+			throw exception;
+		}
 		return obj;
 	}
 
@@ -158,4 +176,14 @@ public class BancosFormController implements Initializable {
 		txtId.setText(entity.getStatus());
 	}
 
+	private void setErrorMessages(Map<String, String> errors) {
+		Set<String> fields = errors.keySet();
+
+		if (fields.contains("errNome")) {
+			lblErroNome.setText(errors.get("errNome"));
+		}
+	
+	}
+	
+	
 }
