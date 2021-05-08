@@ -9,6 +9,7 @@ import application.Main;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -46,7 +48,10 @@ public class BancosListController implements Initializable, DataChangeListener {
 	@FXML
 	private TableColumn<Bancos, Float> tableColumnTitular;
 	@FXML
-	private TableColumn<Bancos, Boolean> tableColumnStatus;
+	private TableColumn<Bancos, String> tableColumnStatus;
+	@FXML
+	private TableColumn<Bancos, Bancos> tableColumnEDIT;
+
 	@FXML
 	private Button btNovo;
 
@@ -90,6 +95,7 @@ public class BancosListController implements Initializable, DataChangeListener {
 		List<Bancos> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewBancos.setItems(obsList);
+		initEditButtons();
 	}
 
 	private void createDialogForm(Bancos obj, String absoluteName, Stage parentStage) {
@@ -119,4 +125,24 @@ public class BancosListController implements Initializable, DataChangeListener {
 	public void onDataChanged() {
 		updateTableView();
 	}
+
+	private void initEditButtons() {
+		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEDIT.setCellFactory(param -> new TableCell<Bancos, Bancos>() {
+			private final Button button = new Button("Edit");
+
+			@Override
+			protected void updateItem(Bancos obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						event -> createDialogForm(obj, "/gui/BancosForm.fxml", Utils.currentStage(event)));
+			}
+		});
+	}
+
 }

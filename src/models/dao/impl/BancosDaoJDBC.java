@@ -17,18 +17,17 @@ import models.entities.Bancos;
 public class BancosDaoJDBC implements BancosDao {
 
 	private Connection conn;
-	
+
 	public BancosDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public Bancos findById(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-				"SELECT * FROM tb_bancos WHERE Id = ?");
+			st = conn.prepareStatement("SELECT * FROM tb_bancos WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -43,11 +42,9 @@ public class BancosDaoJDBC implements BancosDao {
 				return obj;
 			}
 			return null;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -58,8 +55,7 @@ public class BancosDaoJDBC implements BancosDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-				"SELECT * FROM tb_bancos ORDER BY cod");
+			st = conn.prepareStatement("SELECT * FROM tb_bancos ORDER BY cod");
 			rs = st.executeQuery();
 
 			List<Bancos> list = new ArrayList<>();
@@ -76,11 +72,9 @@ public class BancosDaoJDBC implements BancosDao {
 				list.add(obj);
 			}
 			return list;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -91,49 +85,8 @@ public class BancosDaoJDBC implements BancosDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO tb_bancos " +
-				"(Tipo, Cod, Nome, Ag, Titular, Status) " +
-				"VALUES " +
-				"(?,?,?,?,?,?)", 
-				Statement.RETURN_GENERATED_KEYS);
-
-			st.setString(1, obj.getTipo());
-			st.setString(2, obj.getCod());
-			st.setString(3, obj.getNome());
-			st.setString(4, obj.getAg());
-			st.setString(5, obj.getTitular());
-			st.setString(6, obj.getStatus());			
-			
-			int rowsAffected = st.executeUpdate();
-			
-			if (rowsAffected > 0) {
-				ResultSet rs = st.getGeneratedKeys();
-				if (rs.next()) {
-					int id = rs.getInt(1);
-					obj.setId(id);
-				}
-			}
-			else {
-				throw new DbException("Unexpected error! No rows affected!");
-			}
-		}
-		catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} 
-		finally {
-			DB.closeStatement(st);
-		}
-	}
-
-	@Override
-	public void update(Bancos obj) {
-		PreparedStatement st = null;
-		try {
-			st = conn.prepareStatement(
-				"UPDATE tb_bancos " +
-				"SET (Tipo, Cod, Nome, Ag, Titular, Status) " +
-				"VALUES (?,?,?,?,?,?)" +		
-				"WHERE Id = ?");
+					"INSERT INTO tb_bancos " + "(Tipo, Cod, Nome, Ag, Titular, Status) " + "VALUES " + "(?,?,?,?,?,?)",
+					Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getTipo());
 			st.setString(2, obj.getCod());
@@ -142,12 +95,46 @@ public class BancosDaoJDBC implements BancosDao {
 			st.setString(5, obj.getTitular());
 			st.setString(6, obj.getStatus());
 
-			st.executeUpdate();
-		}
-		catch (SQLException e) {
+			int rowsAffected = st.executeUpdate();
+
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+			} else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		} 
-		finally {
+		} finally {
+			DB.closeStatement(st);
+		}
+	}
+
+	@Override
+	public void update(Bancos obj) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE tb_bancos " + 
+					"SET Tipo=?, Cod=?, Nome=?, Ag=?, Titular=?, Status=? " +
+					"WHERE Id = ?");
+
+			st.setString(1, obj.getTipo());
+			st.setString(2, obj.getCod());
+			st.setString(3, obj.getNome());
+			st.setString(4, obj.getAg());
+			st.setString(5, obj.getTitular());
+			st.setString(6, obj.getStatus());
+			st.setInt(7, obj.getId());
+
+			System.out.println("st:" + st);
+			System.out.println("obj:" + obj);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
 			DB.closeStatement(st);
 		}
 	}
@@ -156,17 +143,14 @@ public class BancosDaoJDBC implements BancosDao {
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement(
-				"DELETE FROM tb_bancos WHERE Id = ?");
+			st = conn.prepareStatement("DELETE FROM tb_bancos WHERE Id = ?");
 
 			st.setInt(1, id);
 
 			st.executeUpdate();
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbIntegrityException(e.getMessage());
-		} 
-		finally {
+		} finally {
 			DB.closeStatement(st);
 		}
 	}

@@ -66,16 +66,23 @@ public class BancosFormController implements Initializable {
 
 	@FXML
 	public void onBtnSalvarAction(ActionEvent event) {
+		System.out.println("btnsalvarAction cabec");
 		if (entity == null) {
+			System.out.println("entity null");
 			throw new IllegalStateException("onBtnSalvarAction entity null");
 		}
 		if (service == null) {
+			System.out.println("service null");
 			throw new IllegalStateException("onBtnSalvarAction service null");
 		}
 		try {
+			System.out.println("try cabec");
 			entity = getFormData();
+			System.out.println("antes do or_update");
 			service.saveOrUpdate(entity);
+			System.out.println("apos update");
 			notifyDataChangeListeners();
+			System.out.println("antes do close");
 			Utils.currentStage(event).close();
 		}
 		catch (DbException e) {
@@ -168,12 +175,12 @@ public class BancosFormController implements Initializable {
 			throw new IllegalStateException("Erro. updateFormData entity null");
 		}
 		txtId.setText(String.valueOf(entity.getId()));
-		txtId.setText(entity.getCod());
-		txtId.setText(entity.getTipo());
-		txtId.setText(entity.getNome());
-		txtId.setText(entity.getAg());
-		txtId.setText(entity.getTitular());
-		txtId.setText(entity.getStatus());
+		txtCod.setText(entity.getCod());
+		txtTipo.setText(entity.getTipo());
+		txtNome.setText(entity.getNome());
+		txtAg.setText(entity.getAg());
+		txtTitular.setText(entity.getTitular());
+		txtStatus.setText(entity.getStatus());
 	}
 
 	private void setErrorMessages(Map<String, String> errors) {
