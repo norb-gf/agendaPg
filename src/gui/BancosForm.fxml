@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="393.0" prefWidth="582.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+<AnchorPane prefHeight="393.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.BancosFormController">
    <children>
       <GridPane layoutX="30.0" layoutY="30.0" prefHeight="260.0" prefWidth="505.0">
          <columnConstraints>
@@ -39,26 +38,26 @@
             <Label text="Status" GridPane.rowIndex="6" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>
-                  <Button mnemonicParsing="false" text="Salvar" />
-                  <Button mnemonicParsing="false" text="Cancelar" />
+                  <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#onBtnSalvarAction" text="Salvar" />
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onBtnCancelarAction" text="Cancelar" />
                </children>
                <padding>
                   <Insets left="50.0" top="10.0" />
                </padding>
             </HBox>
-            <TextField prefHeight="25.0" prefWidth="135.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label textFill="#f80909" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label textFill="#f50a0a" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label textFill="#ee0606" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label textFill="#f50505" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label textFill="#f80707" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <Label textFill="#ff0404" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <TextField editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="txtTipo" prefHeight="25.0" prefWidth="135.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCod" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtAg" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txtTitular" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtStatus" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="lblErroTipo" textFill="#f80909" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="lblErroCod" textFill="#f50a0a" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="lblErroNome" textFill="#ee0606" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="lblErroAg" textFill="#f50505" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="lblErroTitular" textFill="#f80707" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="lblErroStatus" textFill="#ff0404" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>
